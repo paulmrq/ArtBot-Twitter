@@ -1,6 +1,8 @@
 import os
 import tweepy
 import logging
+from pydrive.auth import GoogleAuth
+from pydrive.drive import GoogleDrive
 
 os.environ["CONSUMER_KEY"] = 'FL1CuSE5FLR7lzsrBMCj18DZ6'
 os.environ["CONSUMER_SECRET"] = 'Z4rxGkf6JVt2YhcCVzT1Rc6IVM6uHAXmA2Jm2uqO0AxooIhdYf'
@@ -9,7 +11,8 @@ os.environ["ACCESS_TOKEN_SECRET"] = '7ptlNnwfA1RykRcDpEspwmcktnYwBqXyMKbeZUxmCVP
 
 logger = logging.getLogger()
 
-def create_api():
+def connect_twitter_api():
+
     consumer_key = os.getenv("CONSUMER_KEY")
     consumer_secret = os.getenv("CONSUMER_SECRET")
     access_token = os.getenv("ACCESS_TOKEN")
@@ -26,3 +29,11 @@ def create_api():
         raise e
     logger.info("API created")
     return api
+
+def connect_google_api():
+
+    gauth = GoogleAuth()
+    gauth.LocalWebserverAuth()  # client_secrets.json need to be in the same directory as the script
+    drive = GoogleDrive(gauth)
+
+    return drive
