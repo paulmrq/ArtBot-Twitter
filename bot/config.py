@@ -27,7 +27,7 @@ def connect_twitter_api():
     except Exception as e:
         logger.error("Error creating API", exc_info=True)
         raise e
-    logger.info("API created")
+    logger.info("Twitter API created for @UneNuitEtoilee")
     return api
 
 def connect_google_api():

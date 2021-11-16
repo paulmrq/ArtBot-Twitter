@@ -4,15 +4,26 @@ import json
 import logging
 import re
 import time
+from datetime import datetime
+from csv_logger import CsvLogger
+import random
+
 
 """ 
     This work plans to create a bot for Twitter @UneNuitEtoilee posting art images each day at a certain frequency 
-    from a source folder ./images/
+    from a source folder ./images/.
+    Actually only the local application work but maybe I will implement the remote one (GoogleDrive, Database...) to
+    store my images.
 """
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger()
 
+# Creat logger with csv rotating handler
+csvlogger = CsvLogger(filename='logs/log.csv',
+                      level=logging.INFO,
+                      datefmt='%d/%m/%Y %H:%M:%S',
+                      header=['date','message'])
 
 def process_string(file):
     """format string Name - Author - Date - Info"""
@@ -62,11 +73,16 @@ def fill_json():
 
     with open('./images/info.json', 'w') as outfile:
         json.dump(data, outfile)
-        logger.info("Json Updated")
+        logger.info("Json Updated at images/info.json")
+        csvlogger.info("Json Updated at images/info.json")
 
 
 def main():
+    csvlogger.info("Bot Starting...")
+
     api = connect_twitter_api()
+    csvlogger.info("Twitter API created for @UneNuitEtoilee")
+
     fill_json()
 
     while True:
@@ -76,24 +92,34 @@ def main():
         except:
             logger.critical("Json not found !")
 
+        list_paitings = file['Paintings']
+        #Set a new order for the list of paintings
+        sampled_list = random.sample(list_paitings, len(list_paitings))
+
         for i in range(len(file['Paintings'])):
-            name = file['Paintings'][i]['name']
-            author = file['Paintings'][i]['author']
-            date = file['Paintings'][i]['date']
-            source = file['Paintings'][i]['file']
+            name = sampled_list[i]['name']
+            author = sampled_list[i]['author']
+            date = sampled_list[i]['date']
+            source = sampled_list[i]['file']
 
             if len(date) == 4:
                 message = f"{name} par {author}, {date}"
             else:
                 message = f"{name} par {author}"
 
+            # datetime object containing current date and time
+            now = datetime.now()
+            dt_string = now.strftime("%d/%m/%Y %H:%M:%S")
+
             media = api.media_upload(f"images/{source}")
             api.update_status(status=message, media_ids=[media.media_id])
-            logger.info(f"{source} upload on twitter at")
+            logger.info(f"{source} upload on twitter at {dt_string}, {i}/{len(list_paitings)}")
+            csvlogger.info(f"{source} upload on twitter at {dt_string}")
 
             time.sleep(60)
 
         logger.info("All images are upload")
+        csvlogger.info("All images are upload")
 
 
 if __name__ == "__main__":
