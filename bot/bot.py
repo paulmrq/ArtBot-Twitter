@@ -113,7 +113,7 @@ def main():
 
             media = api.media_upload(f"images/{source}")
             api.update_status(status=message, media_ids=[media.media_id])
-            logger.info(f"{source} upload on twitter at {dt_string}, {i}/{len(list_paitings)}")
+            logger.info(f"{source} upload on twitter at {dt_string}, {i+1}/{len(list_paitings)}")
             csvlogger.info(f"{source} upload on twitter at {dt_string}")
 
             #tweet each 4 hours
