@@ -116,7 +116,8 @@ def main():
             logger.info(f"{source} upload on twitter at {dt_string}, {i}/{len(list_paitings)}")
             csvlogger.info(f"{source} upload on twitter at {dt_string}")
 
-            time.sleep(60)
+            #tweet each 4 hours
+            time.sleep(14400)
 
         logger.info("All images are upload")
         csvlogger.info("All images are upload")
