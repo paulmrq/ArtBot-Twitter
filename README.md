@@ -13,7 +13,11 @@ Run shell script on a machine with python already installed:
 ```bash
 ./installtion.sh
 ```
-
+## Run manually
+Run manually the code after creating your environement 
+```bash
+python ./bot/bot.py
+```
 ## Run with Docker
 Build image:
 ```bash
