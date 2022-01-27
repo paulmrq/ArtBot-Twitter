@@ -66,10 +66,10 @@ def fill_json():
                     "date": date,
                     "file": file
                 })
-            elif file.lower().endswith(('.json')):
+            elif file.lower().endswith(('.json','.DS_Store')):
                 pass
             else:
-                logging.error(file + 'not an image format !')
+                logging.error(file + ' not an image format !')
 
     with open('./images/info.json', 'w') as outfile:
         json.dump(data, outfile)
@@ -93,6 +93,7 @@ def main():
             logger.critical("Json not found !")
 
         list_paitings = file['Paintings']
+
         #Set a new order for the list of paintings
         sampled_list = random.sample(list_paitings, len(list_paitings))
 
@@ -111,10 +112,14 @@ def main():
             now = datetime.now()
             dt_string = now.strftime("%d/%m/%Y %H:%M:%S")
 
-            media = api.media_upload(f"images/{source}")
-            api.update_status(status=message, media_ids=[media.media_id])
-            logger.info(f"{source} upload on twitter at {dt_string}, {i+1}/{len(list_paitings)}")
-            csvlogger.info(f"{source} upload on twitter at {dt_string}")
+            try:
+                media = api.media_upload(f"images/{source}")
+                api.update_status(status=message, media_ids=[media.media_id])
+                logger.info(f"{source} upload on twitter at {dt_string}, {i+1}/{len(list_paitings)}")
+                csvlogger.info(f"{source} upload on twitter at {dt_string}")
+            except:
+                logger.info(f"{source} not upload, check logs for issues")
+                csvlogger.info(f"{source} not upload, check logs for issues")
 
             #tweet each 4 hours
             time.sleep(14400)
