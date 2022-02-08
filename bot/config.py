@@ -4,11 +4,6 @@ import logging
 from pydrive.auth import GoogleAuth
 from pydrive.drive import GoogleDrive
 
-os.environ["CONSUMER_KEY"] = 'FL1CuSE5FLR7lzsrBMCj18DZ6'
-os.environ["CONSUMER_SECRET"] = 'Z4rxGkf6JVt2YhcCVzT1Rc6IVM6uHAXmA2Jm2uqO0AxooIhdYf'
-os.environ["ACCESS_TOKEN"] = '1460015666908606468-a8PUGya8Kx3y6JMMWUNPbkvHO5rRJk'
-os.environ["ACCESS_TOKEN_SECRET"] = '7ptlNnwfA1RykRcDpEspwmcktnYwBqXyMKbeZUxmCVPHL'
-
 logger = logging.getLogger()
 
 def connect_twitter_api():

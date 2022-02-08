@@ -38,20 +38,6 @@ def process_string(file):
 
     return author, name, date
 
-
-def gdrive_method():
-    drive = connect_google_api()
-
-    # View all folders and file in your Google Drive
-    fileList = drive.ListFile({'q': "'1LeLvu0UDJyHf9WjIlk_pbQlBXGbsWqUS' in parents and trashed=false"}).GetList()
-    for file in fileList:
-        print('Title: %s, ID: %s' % (file['title'], file['id']))
-
-        # Get the folder ID that you want
-        if file['title'] == "To Share":
-            fileID = file['id']
-
-
 def fill_json():
     data = {}
     data['Paintings'] = []
