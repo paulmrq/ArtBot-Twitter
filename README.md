@@ -24,7 +24,10 @@ docker build . -t artbot-twitter
 ```
 Run:
 ```bash
-docker run artbot-twitter
+docker run -it -e CONSUMER_KEY="your consumer key" \
+ -e CONSUMER_SECRET="your consumer secret" \
+ -e ACCESS_TOKEN="your access token" \
+ -e ACCESS_TOKEN_SECRET="your token secret" \ artbot-twitter
 ```
 
 ## Install lib manually (venv/conda)
