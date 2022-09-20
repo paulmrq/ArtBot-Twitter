@@ -5,7 +5,7 @@ Bots make twitter a cooler place and permit also to see my favorite pieces of ar
 Reminder: This is a 1.0.0, the code is very simple but efficient.
 
 Some tasks for the future : 
-- Host all the images on a database.
+- Host all images metadata on a database and the files on S3.
 
 ## Install venv with shell
 Run shell script on a machine with python already installed:
